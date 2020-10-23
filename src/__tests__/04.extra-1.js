@@ -49,7 +49,9 @@ test('can play a game of tic tac toe', () => {
 
   alfredTip(
     () =>
-      expect(JSON.parse(window.localStorage.getItem('squares'))).toEqual(
+      expect(
+        JSON.parse(window.localStorage.getItem('tic-tac-toe:squares')),
+      ).toEqual(
         // prettier-ignore
         [
           'X', 'O', 'X',
