@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 // import App from '../final/02'
@@ -10,16 +10,19 @@ afterEach(() => {
 
 test('App works', () => {
   const {rerender} = render(<App />)
-  userEvent.type(screen.getByRole('textbox', {name: /name/i}), 'bob')
+  const inputTextbox = screen.getByRole('textbox', {name: /name/i})
+
+  userEvent.clear(inputTextbox)
+  userEvent.type(inputTextbox, 'bob')
   const lsName = window.localStorage.getItem('name')
 
   // extra credit 4 serializes the value in localStorage so there's a bit of a
   // variation here.
   const isSerialized = lsName === '"bob"'
   if (isSerialized) {
-    screen.getByText(/hello.*bob/i)
+    expect(screen.getByText(/hello.*bob/i)).toBeInTheDocument()
   } else if (lsName === 'bob') {
-    screen.getByText(/hello.*bob/i)
+    expect(screen.getByText(/hello.*bob/i)).toBeInTheDocument()
   } else {
     throw new Error(
       `🚨 localStorage is not getting updated with the text that's typed. Be sure to call window.localStorage.setItem('name', name) in a useEffect callback that runs whenever the name changes.`,
@@ -40,4 +43,5 @@ test('App works', () => {
       `🚨 the value in localStorage is not getting deserialized properly. Make sure the value is deserialized when read from localStorage.`,
     )
   }
+  expect(screen.getByRole('textbox', {name: /name/i})).toHaveValue('jill')
 })

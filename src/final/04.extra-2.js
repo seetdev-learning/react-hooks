@@ -2,7 +2,7 @@
 // 💯 useLocalStorageState
 // http://localhost:3000/isolated/final/04.extra-2.js
 
-import React from 'react'
+import * as React from 'react'
 import {useLocalStorageState} from '../utils'
 
 function Board() {
@@ -80,9 +80,7 @@ function calculateStatus(winner, squares, nextValue) {
 }
 
 function calculateNextValue(squares) {
-  const xSquaresCount = squares.filter(r => r === 'X').length
-  const oSquaresCount = squares.filter(r => r === 'O').length
-  return oSquaresCount === xSquaresCount ? 'X' : 'O'
+  return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
 }
 
 function calculateWinner(squares) {
