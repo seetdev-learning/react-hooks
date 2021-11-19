@@ -3,6 +3,7 @@
 // http://localhost:3000/isolated/exercise/04-classes.js
 
 import * as React from 'react'
+import {useLocalStorageState} from '../utils'
 
 // If you'd rather practice refactoring a class component to a function
 // component with hooks, then go ahead and do this exercise.
@@ -10,7 +11,7 @@ import * as React from 'react'
 // 🦉 You've learned all the hooks you need to know to refactor this Board
 // component to hooks. So, let's make it happen!
 
-class Board extends React.Component {
+class BoardClassComponent extends React.Component {
   state = {
     squares:
       JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
@@ -81,6 +82,58 @@ class Board extends React.Component {
       </div>
     )
   }
+}
+
+function Board() {
+  const [squares, setSquares] = useLocalStorageState(
+    'tictactoe.classes.squares', Array(9).fill(null)
+  )
+  const nextValue = calculateNextValue(squares)
+  const winner = calculateWinner(squares)
+  let status = calculateStatus(winner, squares, nextValue)
+
+  const selectSquare = (square) => {
+    if (winner || squares[square]) {
+      return
+    }
+    const squaresCopy = [...squares]
+    squaresCopy[square] = nextValue
+    setSquares(squaresCopy)
+  }
+
+  const renderSquare = (index) => (
+    <button className="square" onClick={() => selectSquare(index)}>
+      {squares[index]}
+    </button>
+  )
+
+  const restart = () => {
+    setSquares(Array(9).fill(null))
+  }  
+
+  return (
+    <div>
+      <div className="status">{status}</div>
+      <div className="board-row">
+        {renderSquare(0)}
+        {renderSquare(1)}
+        {renderSquare(2)}
+      </div>
+      <div className="board-row">
+        {renderSquare(3)}
+        {renderSquare(4)}
+        {renderSquare(5)}
+      </div>
+      <div className="board-row">
+        {renderSquare(6)}
+        {renderSquare(7)}
+        {renderSquare(8)}
+      </div>
+      <button className="restart" onClick={restart}>
+        restart
+      </button>
+    </div>
+  )
 }
 
 function Game() {
