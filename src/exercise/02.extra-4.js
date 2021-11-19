@@ -5,7 +5,7 @@ import React, {useEffect, useRef, useState} from 'react'
 
 function useLocalStorageState(key, 
   defaultValue = '', 
-  { serialized = JSON.stringify, deserialized = JSON.parse}) {
+  { serialized = JSON.stringify, deserialized = JSON.parse} = {}) {
   
     const [state, setState] = useState(() => {
     const localStorageValue = window.localStorage.getItem(key)
