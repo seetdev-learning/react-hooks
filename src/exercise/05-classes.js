@@ -8,7 +8,7 @@ import VanillaTilt from 'vanilla-tilt'
 // If you'd rather practice refactoring a class component to a function
 // component with hooks, then go ahead and do this exercise.
 
-class Tilt extends React.Component {
+class TiltClass extends React.Component {
   tiltRef = React.createRef()
   componentDidMount() {
     const tiltNode = this.tiltRef.current
@@ -31,6 +31,26 @@ class Tilt extends React.Component {
     )
   }
 }
+
+function Tilt({children}) {
+  const tiltRef = React.useRef()
+  React.useEffect(() => {
+    const tiltNode = tiltRef.current;
+    VanillaTilt.init(tiltNode, {
+      max: 25,
+      speed: 400,
+      glare: true,
+      'max-glare': 0.5,
+    })
+    return () => tiltNode.vanillaTilt.destroy()
+  })
+  return (
+    <div ref={tiltRef} className="tilt-root">
+      <div className="tilt-child">{children}</div>
+    </div>
+  )  
+}
+
 function App() {
   return (
     <Tilt>
