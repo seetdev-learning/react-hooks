@@ -11,7 +11,9 @@ import {useLocalStorageState} from '../utils'
 // 🦉 You've learned all the hooks you need to know to refactor this Board
 // component to hooks. So, let's make it happen!
 
-class BoardClassComponent extends React.Component {
+/* Original class component
+
+class BoardClass extends React.Component {
   state = {
     squares:
       JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
@@ -83,6 +85,7 @@ class BoardClassComponent extends React.Component {
     )
   }
 }
+*/
 
 function Board() {
   const [squares, setSquares] = useLocalStorageState(
