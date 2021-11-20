@@ -10,20 +10,22 @@ function PokemonInfo({pokemonName}) {
     pokemon: null,
     error: null
   })
+
+  const {status, pokemon, error} = state
+
   React.useEffect(() => {
     if(!pokemonName) return
-    setState(state => ({ ...state, status: 'pending'}))
+    setState({status: 'pending'})
     fetchPokemon(pokemonName).then(
       pokemon => {
-        setState(state => ({ ...state, status: 'resolved', pokemon}))
+        setState({status: 'resolved', pokemon})
       },
       error => {
-        setState(state => ({ ...state, status: 'rejected', error}))
+        setState({status: 'rejected', error})
       }
     )
   }, [pokemonName])
 
-  const {status, pokemon, error} = state
   if(status === 'idle') {
     return 'Submit a pokemon'
   }
